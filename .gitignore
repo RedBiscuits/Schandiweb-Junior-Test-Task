@@ -1,0 +1,38 @@
+# Ignore composer dependencies
+vendor/
+
+# Ignore Node.js modules
+node_modules/
+
+# Ignore build artifacts
+build/
+
+# Ignore environment variables
+.env
+
+# Ignore compiled files
+*.map
+*.min.js
+
+# Ignore local development files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore log files
+log/
+
+# Ignore cache files
+cache/
+
+# Ignore temporary files
+tmp/
+
+# Ignore backup files
+*.bak
+*.backup
+
+# Ignore IDE files
+.idea/
+.vscode/

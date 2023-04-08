@@ -16,6 +16,7 @@ import {
   Divider 
 } from "@mui/material";
 import { deleteProduct } from "controllers/ProductsReducer.mjs";
+import axios from 'axios';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -24,16 +25,25 @@ const Navbar = () => {
 
   const handleMassDeleteClick = () => {
     const promises = [];
-    for (let i = 0; i < selectedIds.length; i++) {
-      const sku = selectedIds[i].sku;
-      console.log(sku)
-      const promise = dispatch(deleteProduct(parseInt(sku)));
-      promises.push(promise);
-    }
-  
-    Promise.all(promises).then(() => {
-      console.log("All products deleted");
+    const {promise} = axios.post('http://localhost:3000/asd/product/delete', {
+      ids: JSON.stringify(selectedIds.map(product => parseInt(product.sku)))
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+  })
+
+    Promise.all([promise]).then(()=>{
+      for (let i = 0; i < selectedIds.length; i++) {
+        const sku = selectedIds[i].sku;
+        const promise = dispatch(deleteProduct(parseInt(sku)));
+        promises.push(promise);
+      }
+    
+      Promise.all(promises).then(() => {
+      });
     });
+    
   };
 
   const handleAddClick = () => {
@@ -55,6 +65,7 @@ const Navbar = () => {
           variant="h4"
           fontWeight="bold"
           sx={{marginLeft: "0.5rem"}}
+          color={theme.palette.secondary[100]}
           fontFamily={theme.typography.fontFamily}
            >Product List</Typography>
 

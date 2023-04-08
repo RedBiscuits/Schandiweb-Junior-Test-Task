@@ -43,7 +43,32 @@ class Book extends Product
     
         $conn->close();
     }
+    public function delete($sku2)
+    {
+        $conn = mysqli_connect($host, $username, $password, $db_name);
     
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+    
+        $sql = "DELETE FROM books WHERE product_id = ?";
+    
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("i", $sku2);
+            $stmt->execute();
+            $stmt->close();
+        }
+    
+        $sql = "DELETE FROM products WHERE id = ?";
+    
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("i", $sku2);
+            $stmt->execute();
+            $stmt->close();
+        }
+    
+        $conn->close();
+    }
     // public function read()
     // {
     //     $conn = mysqli_connect($host, $username, $password, $db_name);
@@ -100,30 +125,5 @@ class Book extends Product
     //     $conn->close();
     // }
     
-    public function delete()
-    {
-        $conn = mysqli_connect($host, $username, $password, $db_name);
-    
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-    
-        $sql = "DELETE FROM books WHERE product_id = ?";
-    
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("i", $this->id);
-            $stmt->execute();
-            $stmt->close();
-        }
-    
-        $sql = "DELETE FROM products WHERE id = ?";
-    
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("i", $this->id);
-            $stmt->execute();
-            $stmt->close();
-        }
-    
-        $conn->close();
-    }
+
 }

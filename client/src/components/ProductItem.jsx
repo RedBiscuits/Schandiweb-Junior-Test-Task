@@ -19,7 +19,8 @@ function ProductItem({ item, onCheckboxChange }) {
       >
         <FormControlLabel
           sx={{ position: 'absolute', top: 8, left: 13 }}
-          control={<Checkbox  onChange={onCheckboxChange} color="primary" sx={{ width: '100%', height: '100%', color: '#123123' }} />}
+          control={<Checkbox className='delete-checkbox' onChange={onCheckboxChange}
+          color="primary" sx={{ width: '100%', height: '100%', color: theme.palette.primary[500] }} />}
           label=""
         />
         <div style={{ flex: 1, marginLeft: '1rem', marginTop: '1.2rem' }}>

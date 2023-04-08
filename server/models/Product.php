@@ -10,7 +10,6 @@ abstract class Product
     protected static $username = 'root';
     protected static $password = '';
 
-    abstract public function create();
     public static function read(){
         $conn = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db_name, self::$username, self::$password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
@@ -40,13 +39,13 @@ abstract class Product
                     $unique_attribute = '';
         
                     switch ($row['product_type']) {
-                        case 'Book':
+                        case 'book':
                             $unique_attribute = 'Weight: ' . $row['weight'] . ' kg';
                             break;
-                        case 'Furniture':
-                            $unique_attribute = 'Dimensions: ' . $row['dimensions'];
+                        case 'furniture':
+                            $unique_attribute = 'Dimensions: ' . $row['dimensions'] . 'x' .$row['dimensions'] .'x' .$row['dimensions'] ;
                             break;
-                        case 'DVD':
+                        case 'dvd':
                             $unique_attribute = 'Size: ' . $row['size'] . ' MB';
                             break;
                     }
@@ -55,7 +54,7 @@ abstract class Product
                         'id' => $row['id'],
                         'sku' => $row['sku'],
                         'name' => $row['name'],
-                        'price' => $row['price'],
+                        'price' => $row['price'] .' $',
                         'product_type' => $row['product_type'],
                         'unique_attribute' => $unique_attribute
                     );
@@ -71,6 +70,41 @@ abstract class Product
         
         
     }
+    
+    public static function delete($sku){
+       
+        // initialize connection with db
+        $conn = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db_name, self::$username, self::$password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);    
+        
+
+                // Get the product details based on the sku
+        $sql = "SELECT id, product_type FROM products WHERE sku = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([strval($sku)]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+        $productId = $result['id'];
+        $productType = $result['product_type'];
+
+        // Delete the row from the respective table based on the product type
+        $sql = "DELETE FROM " . $productType . "s WHERE product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$productId]);
+
+        // Delete the row from the products table
+        $sql = "DELETE FROM products WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$productId]);
+
+        // close connection after done
+        $conn = null;
+
+        }
+    }
+
     abstract public function update();
-    abstract public function delete();
+    abstract public function create();
+
 }

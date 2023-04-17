@@ -1,21 +1,26 @@
-import { TextField } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 export function fieldComponents(formik) {
   const ret = {
     dvd: ({ field }) => (
-      <TextField
-        error={!!(formik.touched.size && formik.errors.size)}
-        fullWidth
-        helperText={formik.touched.size && formik.errors.size}
-        label="Size"
-        name="size"
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        type="text"
-        value={formik.values.size}
-      />
+      <Stack spacing={2}>
+        <TextField
+          error={!!(formik.touched.size && formik.errors.size)}
+          fullWidth
+          helperText={formik.touched.size && formik.errors.size}
+          label="Size"
+          name="size"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          type="number"
+          value={formik.values.size}
+        />
+        <Typography variant="h5" textAlign="center">
+          Please specify DVD size (in MB).
+        </Typography>
+      </Stack>
     ),
     furniture: ({ field }) => (
-      <div>
+      <Stack spacing={2}>
         <TextField
           error={!!(formik.touched.height && formik.errors.height)}
           fullWidth
@@ -24,7 +29,7 @@ export function fieldComponents(formik) {
           name="height"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          type="text"
+          type="number"
           value={formik.values.height}
         />
         <TextField
@@ -35,7 +40,7 @@ export function fieldComponents(formik) {
           name="width"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          type="text"
+          type="number"
           value={formik.values.width}
         />
         <TextField
@@ -46,23 +51,31 @@ export function fieldComponents(formik) {
           name="length"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-          type="text"
+          type="number"
           value={formik.values.length}
         />
-      </div>
+        <Typography variant="h5" textAlign="center">
+          Please specify furniture dimensions (WxHxL).
+        </Typography>
+      </Stack>
     ),
     book: ({ field }) => (
-      <TextField
-        error={!!(formik.touched.weight && formik.errors.weight)}
-        fullWidth
-        helperText={formik.touched.weight && formik.errors.weight}
-        label="Weight"
-        name="weight"
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-        type="text"
-        value={formik.values.weight}
-      />
+      <Stack spacing={2}>
+        <TextField
+          error={!!(formik.touched.weight && formik.errors.weight)}
+          fullWidth
+          helperText={formik.touched.weight && formik.errors.weight}
+          label="Weight"
+          name="weight"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          type="number"
+          value={formik.values.weight}
+        />
+        <Typography variant="h5" textAlign="center">
+          Please specify book weight (in KG).
+        </Typography>
+      </Stack>
     ),
   };
   return ret;

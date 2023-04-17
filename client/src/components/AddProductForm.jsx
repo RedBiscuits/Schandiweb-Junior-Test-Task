@@ -1,18 +1,15 @@
-import React, { useState } from "react";
-import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
+import React from "react";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useFormik } from "formik";
-import {
-  Alert,
-  Button,
-  Stack,
-  TextField,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { Stack, TextField, Select, MenuItem } from "@mui/material";
 import { NumericFormat } from "react-number-format";
-import { getYup } from "controllers/AddProductController";
+import Navbar from "components/Navbar";
+import { CancelButton, SaveButton } from "components/NavButtonsFactory";
 import { fieldComponents } from "./CustomFields";
-import { useEffect } from "react";
+import {
+  getValidationObject,
+  initialValues,
+} from "controllers/AddProductController";
 const AddProductForm = () => {
   useMediaQuery("(min-width: 600px)");
 
@@ -21,46 +18,26 @@ const AddProductForm = () => {
     return `${value.toFixed(2)}`;
   };
 
-  const handleClick = ()=>{
-    formik = useFormik({
-      initialValues: formik.initialValues,
-      onSubmit: formik.onSubmit,
-      validationSchema: getYup(formik.values.selectedOption , options)
-    })
-  }
   const options = [
     { value: "dvd", label: "DVD" },
     { value: "furniture", label: "Furniture" },
     { value: "book", label: "Book" },
   ];
 
-  var formik = useFormik({
-    initialValues: {
-      name: "",
-      sku: "",
-      selectedOption: "dvd",
-      price: "",
-      size: "",
-      width: "",
-      length: "",
-      height: "",
-      weight: "",
-    },
-
-    onSubmit: (values) => {
-      try {
-        console.log(values);
-        alert("Tr444");
-
-        //router.push('/');
-      } catch (err) {}
-    },
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: getValidationObject(options),
   });
 
   return (
     <>
       {" "}
       <div>
+        <Navbar
+          title={"Add Product"}
+          rightButton={<CancelButton />}
+          leftButton={<SaveButton formik={formik} />}
+        />
         <Box
           sx={{
             flex: "1 1 auto",
@@ -83,11 +60,7 @@ const AddProductForm = () => {
             <div>
               {}
               {
-                <form
-                  noValidate
-                  onSubmit={formik.handleSubmit}
-                  id="product_form"
-                >
+                <form noValidate id="product_form">
                   <Stack spacing={2}>
                     <TextField
                       error={!!(formik.touched.sku && formik.errors.sku)}
@@ -156,18 +129,6 @@ const AddProductForm = () => {
                       {formik.errors.submit}
                     </Typography>
                   )}
-                  <Button
-                    fullWidth
-                    size="large"
-                    sx={{ mt: 3 }}
-                    onClick={handleClick}
-                    type="submit"
-                    variant="contained"
-                  >
-                    Continue
-                  </Button>
-
-                  <Alert color="primary" severity="info" sx={{ mt: 3 }}></Alert>
                 </form>
               }
             </div>

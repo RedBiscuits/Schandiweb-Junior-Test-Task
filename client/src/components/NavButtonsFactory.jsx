@@ -4,13 +4,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import CustomButton from "./CustomButton";
 import { useNavigate } from "react-router-dom";
+import { validateInput } from "controllers/AddProductController";
 
 export const AddButton = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleAddClick = () => {
     navigate("/addproduct");
-
   };
   return <CustomButton text={"ADD"} onClick={handleAddClick}></CustomButton>;
 };
@@ -20,19 +20,23 @@ export const CancelButton = () => {
 
   const handleCancelClick = () => {
     navigate("/");
-
   };
-  return <CustomButton text={"Cancel"} onClick={handleCancelClick}></CustomButton>;
+  return (
+    <CustomButton text={"Cancel"} onClick={handleCancelClick}></CustomButton>
+  );
 };
 
-export const SaveButton = () => {
-  const navigate = useNavigate();
-
+export const SaveButton = ({ formik }) => {
   const handleSaveClick = () => {
-    navigate("/");
-
+    try{
+      validateInput(formik)
+      console.log(formik.values)
+    }catch(err){
+      alert(err)
+    }
   };
-  return <CustomButton text={"Save"} onClick={handleSaveClick}></CustomButton>;};
+  return <CustomButton text={"Save"} onClick={handleSaveClick}></CustomButton>;
+};
 
 export const MassDeleteButton = () => {
   const dispatch = useDispatch();

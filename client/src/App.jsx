@@ -8,7 +8,7 @@ import Layout from "scenes/layout";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductsData } from "controllers/ProductsReducer.mjs";
 import { useEffect } from "react";
-
+import AddProduct from "scenes/add_product";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -30,7 +30,8 @@ useEffect(() => {
           <CssBaseline />
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/addproduct" element={<AddProduct />} />
 
             </Route>
           </Routes>

@@ -22,44 +22,46 @@ if (!$conn) {
 }
 
 // Define column names as variables
-$id_col = 'id';
-$sku_col = 'sku';
-$name_col = 'name';
-$price_col = 'price';
-$product_type_col = 'product_type';
-$product_id_col = 'product_id';
-$weight_col = 'weight';
-$dimensions_col = 'dimensions';
-$size_col = 'size';
+$id  = 'id';
+$sku  = 'sku';
+$name  = 'name';
+$price  = 'price';
+$product_type  = 'product_type';
+$product_id  = 'product_id';
+$weight  = 'weight';
+$dimensions  = 'dimensions';
+$size  = 'size';
 
 // SQL queries
 $sql1 = "CREATE TABLE products (
-  $id_col INT AUTO_INCREMENT PRIMARY KEY,
-  $sku_col VARCHAR(255) UNIQUE NOT NULL,
-  $name_col VARCHAR(255) NOT NULL,
-  $price_col DECIMAL(10,2) NOT NULL,
-  $product_type_col ENUM('book', 'furniture', 'dvd') NOT NULL
+  $id  INT AUTO_INCREMENT PRIMARY KEY,
+  $sku  VARCHAR(255) UNIQUE NOT NULL,
+  $name  VARCHAR(255) NOT NULL,
+  $price  DECIMAL(10,2) NOT NULL,
+  $product_type  ENUM('book', 'furniture', 'dvd') NOT NULL
 )";
 
 $sql2 = "CREATE TABLE books (
-  $id_col INT AUTO_INCREMENT PRIMARY KEY,
-  $product_id_col INT NOT NULL,
-  $weight_col DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY ($product_id_col) REFERENCES products($id_col)
+  $id  INT AUTO_INCREMENT PRIMARY KEY,
+  $product_id  INT NOT NULL,
+  $weight  DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY ($product_id ) REFERENCES products($id )
 )";
 
 $sql3 = "CREATE TABLE furnitures (
-  $id_col INT AUTO_INCREMENT PRIMARY KEY,
-  $product_id_col INT NOT NULL,
-  $dimensions_col VARCHAR(255) NOT NULL,
-  FOREIGN KEY ($product_id_col) REFERENCES products($id_col)
+  $id  INT AUTO_INCREMENT PRIMARY KEY,
+  $product_id  INT NOT NULL,
+  $width  INT NOT NULL,
+  $height  INT NOT NULL,
+  $length  INT NOT NULL,
+  FOREIGN KEY ($product_id ) REFERENCES products($id )
 )";
 
 $sql4 = "CREATE TABLE dvds (
-  $id_col INT AUTO_INCREMENT PRIMARY KEY,
-  $product_id_col INT NOT NULL,
-  $size_col INT NOT NULL,
-  FOREIGN KEY ($product_id_col) REFERENCES products($id_col)
+  $id  INT AUTO_INCREMENT PRIMARY KEY,
+  $product_id  INT NOT NULL,
+  $size  INT NOT NULL,
+  FOREIGN KEY ($product_id ) REFERENCES products($id )
 )";
 
 // Execute queries
@@ -88,4 +90,3 @@ if (mysqli_query($conn, $sql4)) {
 }
 
 mysqli_close($conn);
-?>

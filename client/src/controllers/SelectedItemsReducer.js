@@ -3,7 +3,7 @@ const initialState = []
 export default function reducer (state = initialState , action){
     switch(action.type)
     {
-        case "ADD_PRODUCT":
+        case "ADD_PRODUCT2":
             return [...state,{
                 sku: action.payload
             }
@@ -17,7 +17,7 @@ export default function reducer (state = initialState , action){
 }
 
 export const addProduct = (sku) => ({
-    type: "ADD_PRODUCT",
+    type: "ADD_PRODUCT2",
     payload: sku,
   });
   

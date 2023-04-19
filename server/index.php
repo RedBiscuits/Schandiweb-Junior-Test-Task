@@ -3,24 +3,24 @@
 include_once 'models/Product.php';
 
 header('Access-Control-Allow-Methods:  POST, PUT, GET,OPTIONS');
-    // Allow from any origin
-    if (isset($_SERVER['HTTP_ORIGIN'])) {
-        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-        header('Access-Control-Allow-Credentials: true');
-        header('Access-Control-Max-Age: 86400');    // cache for 1 day
-    }
+// Allow from any origin
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Max-Age: 86400');    // cache for 1 day
+}
 
-    // Access-Control headers are received during OPTIONS requests
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+// Access-Control headers are received during OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-            header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
 
-        exit(0);
-    }
+    exit(0);
+}
 $request = $_SERVER['REQUEST_URI'];
 
 switch ($request) {
@@ -34,17 +34,32 @@ switch ($request) {
         $result = Product::read();
         echo ($result);
         break;
+    case '/asd/product/create':
+        // Check if the request method is POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Call the create() function from the Product class
+                $result = Product::create($_POST);
+                http_response_code(200);
+                echo $result;
+            // Add a break statement to prevent fall-through behavior
+            break;
+        } else {
+            // If the request method is not POST, return an error message
+            header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed");
+            exit();
+        }
+
     case '/asd/product/delete':
         // Call the delete() function from the Product class
-        
-        if(isset($_POST["ids"])){
+
+        if (isset($_POST["ids"])) {
             $data = $_POST["ids"];
             $x = json_decode($data);
-            foreach($x as $z){
+            foreach ($x as $z) {
                 Product::delete($z);
             }
-            http_response_code(200);    
-        }else{
+            http_response_code(200);
+        } else {
             http_response_code(204);
         }
         break;

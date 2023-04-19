@@ -19,6 +19,7 @@ const Dashboard = () => {
         dispatch(reducer.addProduct(productSKU));
       }
   }
+  console.log(products)
 
   return (
     <div>

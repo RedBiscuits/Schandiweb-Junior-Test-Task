@@ -68,6 +68,7 @@ const AddProductForm = () => {
                       helperText={formik.touched.sku && formik.errors.sku}
                       label="SKU"
                       name="sku"
+                      id="sku"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       type="text"
@@ -79,6 +80,7 @@ const AddProductForm = () => {
                       helperText={formik.touched.name && formik.errors.name}
                       label="Name"
                       name="name"
+                      id="name"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       type="text"
@@ -91,6 +93,7 @@ const AddProductForm = () => {
                       error={!!(formik.touched.price && formik.errors.price)}
                       label="Price"
                       name="price"
+                      id="price"
                       value={formik.values.price}
                       onChange={formik.handleChange}
                       InputProps={{
@@ -109,6 +112,7 @@ const AddProductForm = () => {
                       value={formik.values.selectedOption}
                       onChange={formik.handleChange}
                       name="selectedOption"
+                      id="productType"
                       disabled={formik.isSubmitting}
                     >
                       <title>Select an option</title>

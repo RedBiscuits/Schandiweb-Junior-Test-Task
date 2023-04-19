@@ -8,6 +8,7 @@ export function fieldComponents(formik) {
           fullWidth
           helperText={formik.touched.size && formik.errors.size}
           label="Size"
+          id="#size"
           name="size"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
@@ -27,6 +28,7 @@ export function fieldComponents(formik) {
           helperText={formik.touched.height && formik.errors.height}
           label="Height"
           name="height"
+          id="height"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           type="number"
@@ -38,6 +40,7 @@ export function fieldComponents(formik) {
           helperText={formik.touched.width && formik.errors.width}
           label="Width"
           name="width"
+          id="width"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           type="number"
@@ -49,6 +52,7 @@ export function fieldComponents(formik) {
           helperText={formik.touched.length && formik.errors.length}
           label="Length"
           name="length"
+          id="length"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           type="number"
@@ -67,6 +71,7 @@ export function fieldComponents(formik) {
           helperText={formik.touched.weight && formik.errors.weight}
           label="Weight"
           name="weight"
+          id="weight"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           type="number"

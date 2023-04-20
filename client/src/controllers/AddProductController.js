@@ -33,14 +33,15 @@ export const initialValues = {
 };
 
 export function addProduct(values) {
+  console.log(values)
   return axios
     .post(
-      "https://juniortaskapi.000webhostapp.com/create",
+      "http://localhost:3000/asd/product/create",
       {
         sku: values.sku,
         name: values.name,
         price: values.price.substr(1),
-        optionSelected: values.selectedOption,
+        optionSelected: values.selectedOption.toLowerCase(),
         weight: values.weight,
         length: values.length,
         height: values.height,

@@ -24,9 +24,9 @@ function ProductItem({ item, onCheckboxChange }) {
           label=""
         />
         <div style={{ flex: 1, marginLeft: '1rem', marginTop: '1.2rem' }}>
-          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}>SKU: {item.sku}</Typography>
-          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}>Name: {item.name}</Typography>
-          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}>Price: {item.price}</Typography>
+          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}> {item.sku}</Typography>
+          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}> {item.name}</Typography>
+          <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}> {item.price}</Typography>
           <Typography sx={{ color: theme.palette.primary[500], textAlign: 'center' }}>{item.unique_attribute}</Typography>
         </div>
       </FormGroup>

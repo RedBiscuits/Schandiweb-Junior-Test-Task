@@ -8,8 +8,8 @@ abstract class Product
     protected static $host = 'localhost';
     protected static $db_name = 'swtask';
     protected static $username = 'root';
-    protected static $password = 'j|JZZR__Qh&KJ9cm';
-
+    protected static $password = '';
+    // j|JZZR__Qh&KJ9cm
     public static function read()
     {
         $conn = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db_name, self::$username, self::$password);
@@ -103,48 +103,33 @@ abstract class Product
 
     public static function create($request)
     {
-        $productTypeMap = [
-            'book' => [
-                'table' => 'books',
-                'columns' => ['weight'],
-            ],
-            'furniture' => [
-                'table' => 'furnitures',
-                'columns' => ['width', 'height', 'length'],
-            ],
-            'dvd' => [
-                'table' => 'dvds',
-                'columns' => ['size'],
-            ],
-        ];
-
         $pdo = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db_name, self::$username, self::$password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $productType = $request['optionSelected'];
-        $tableDetails = $productTypeMap[$productType];
-        $tableName = $tableDetails['table'];
-        $columns = $tableDetails['columns'];
 
         $sql = "INSERT INTO products (sku, name, price, product_type)
-                VALUES (:sku, :name, :price, :product_type)";
-        $sql .= ";\n";
-        $sql .= "SET @product_id = LAST_INSERT_ID();\n";
-        $sql .= "INSERT INTO $tableName (product_id, " . implode(', ', $columns) . ")
-                VALUES (@product_id, " . implode(', ', $columns) . ")";
-
+        VALUES (?, ?, ?, ?)";
+        $params = [$request['sku'], $request['name'], $request['price'], $request['optionSelected']];
         $stmt = $pdo->prepare($sql);
-
-        $params = [
-            ':sku' => $request['sku'],
-            ':name' => $request['name'],
-            ':price' => $request['price'],
-            ':product_type' => $request['optionSelected'],
-        ];
-        foreach ($columns as $column) {
-            $params[":$column"] = $request[$column];
-        }
-
         $stmt->execute($params);
+        $product_id = $pdo->lastInsertId();
+        if ($request['optionSelected'] == 'book') {
+            $weight = $request['weight'];
+            $sql = "INSERT INTO books (product_id, weight) VALUES (?, ?)";
+            $params = [$product_id, $weight];
+        } else if ($request['optionSelected'] == 'dvd') {
+            $size = $request['size'];
+            $sql = "INSERT INTO dvds (product_id, size) VALUES (?, ?)";
+            $params = [$product_id, $size];
+        } else if ($request['optionSelected'] == 'furniture') {
+            $width = $request['width'];
+            $height = $request['height'];
+            $length = $request['length'];
+            $sql = "INSERT INTO furnitures (product_id, length, width, height) VALUES (?, ?, ?, ?)";
+            $params = [$product_id, $length, $width, $height];
+        }
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
     }
 }

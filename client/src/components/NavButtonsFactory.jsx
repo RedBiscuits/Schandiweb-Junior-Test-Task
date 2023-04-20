@@ -34,9 +34,9 @@ export const SaveButton = ({ formik }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const uniqueAttributeMap = {
-    book: formik.values.weight,
-    dvd: formik.values.size,
-    furniture: formik.values.width + ' x ' + formik.values.height + ' x ' + formik.values.length,
+    book: formik.values.weight+'KG',
+    dvd: formik.values.size+' MB',
+    furniture: 'WxHxL: ' +formik.values.width + 'x' + formik.values.height + 'x' + formik.values.length,
   };
   const handleSaveClick = () => {
     try {
@@ -52,8 +52,8 @@ export const SaveButton = ({ formik }) => {
         const productData = {
           sku: formik.values.sku,
           name: formik.values.name,
-          price: formik.values.price.substr(1),
-          unique_attribute: uniqueAttributeMap[formik.values.selectedOption],
+          price: formik.values.price.substr(1) + ' $',
+          unique_attribute: uniqueAttributeMap[formik.values.selectedOption.toLowerCase()],
         };
         dispatch(addProductReducer(productData));
         navigate("/");

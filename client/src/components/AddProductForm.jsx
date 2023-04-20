@@ -10,6 +10,7 @@ import {
   getValidationObject,
   initialValues,
 } from "controllers/AddProductController";
+import { useTheme } from "@emotion/react";
 const AddProductForm = () => {
   useMediaQuery("(min-width: 600px)");
 
@@ -28,6 +29,8 @@ const AddProductForm = () => {
     initialValues: initialValues,
     validationSchema: getValidationObject(options),
   });
+
+  const theme = useTheme();
 
   return (
     <>
@@ -108,24 +111,42 @@ const AddProductForm = () => {
                       }}
                     />
 
-                    <Select
+                    <select
+                      id="productType"
+                      name="selectedOption"
                       value={formik.values.selectedOption}
                       onChange={formik.handleChange}
-                      name="selectedOption"
-                      id="productType"
                       disabled={formik.isSubmitting}
+                      style={{
+                        fontSize: "16px",
+                        color: theme.palette.secondary[500],
+                        backgroundColor: theme.palette.primary[500],
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        padding: "1rem",
+                        width: "100%",
+                        marginBottom: "10px",
+                        "&:focus": {
+                          backgroundColor: "#fff",
+                          borderRadius: "4px",
+                          borderColor: "#ccc",
+                          boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)",
+                        }}
+                      }
                     >
-                      <title>Select an option</title>
+                      <option value="" disabled>
+                        Select an option
+                      </option>
                       {options.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <option key={option.value} value={option.label}>
                           {option.label}
-                        </MenuItem>
+                        </option>
                       ))}
-                    </Select>
+                    </select>
 
-                    {fieldComponents(formik)[formik.values.selectedOption]?.(
-                      {}
-                    )}
+                    {fieldComponents(formik)[
+                      formik.values.selectedOption.toLowerCase()
+                    ]?.({})}
                   </Stack>
 
                   {formik.errors.submit && (

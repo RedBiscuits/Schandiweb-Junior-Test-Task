@@ -36,7 +36,7 @@ export const SaveButton = ({ formik }) => {
   const uniqueAttributeMap = {
     book: formik.values.weight,
     dvd: formik.values.size,
-    furniture: `${formik.values.width}x${formik.values.height}x${formik.values.length}`,
+    furniture: formik.values.width + ' x ' + formik.values.height + ' x ' + formik.values.length,
   };
   const handleSaveClick = () => {
     try {
@@ -73,10 +73,10 @@ export const MassDeleteButton = () => {
   const handleMassDeleteClick = () => {
  axios
       .post(
-        "http://localhost:3000/asd/product/delete",
+        "https://juniortaskapi.000webhostapp.com/delete",
         {
           ids: JSON.stringify(
-            selectedIds.map((product) => parseInt(product.sku))
+            selectedIds.map((product) => product.sku)
           ),
         },
         {

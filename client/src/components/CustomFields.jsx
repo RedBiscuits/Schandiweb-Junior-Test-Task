@@ -8,7 +8,7 @@ export function fieldComponents(formik) {
           fullWidth
           helperText={formik.touched.size && formik.errors.size}
           label="Size"
-          id="#size"
+          id="size"
           name="size"
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
@@ -59,7 +59,7 @@ export function fieldComponents(formik) {
           value={formik.values.length}
         />
         <Typography variant="h5" textAlign="center">
-          Please specify furniture dimensions (WxHxL).
+          Please specify furniture dimensions (HxWxL).
         </Typography>
       </Stack>
     ),

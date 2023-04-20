@@ -4,7 +4,7 @@
 $host = 'localhost';
 $db_name = 'swtask';
 $username = 'root';
-$password = '';
+$password = 'j|JZZR__Qh&KJ9cm';
 $conn;
 
 // Create connection

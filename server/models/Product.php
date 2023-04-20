@@ -8,7 +8,7 @@ abstract class Product
     protected static $host = 'localhost';
     protected static $db_name = 'swtask';
     protected static $username = 'root';
-    protected static $password = '';
+    protected static $password = 'j|JZZR__Qh&KJ9cm';
 
     public static function read()
     {
@@ -100,9 +100,9 @@ abstract class Product
         }
     }
 
+
     public static function create($request)
     {
-
         $productTypeMap = [
             'book' => [
                 'table' => 'books',
@@ -110,47 +110,41 @@ abstract class Product
             ],
             'furniture' => [
                 'table' => 'furnitures',
-                'columns' => ['width' , 'height' , 'length'],
+                'columns' => ['width', 'height', 'length'],
             ],
             'dvd' => [
                 'table' => 'dvds',
                 'columns' => ['size'],
             ],
         ];
-        // Define the mapping between product types and their respective tables
+
         $pdo = new PDO('mysql:host=' . self::$host . ';dbname=' . self::$db_name, self::$username, self::$password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Insert the product details into the appropriate table
         $productType = $request['optionSelected'];
         $tableDetails = $productTypeMap[$productType];
         $tableName = $tableDetails['table'];
         $columns = $tableDetails['columns'];
 
-        // Insert the product into the products table
         $sql = "INSERT INTO products (sku, name, price, product_type)
-            VALUES (:sku, :name, :price, :product_type)";
+                VALUES (:sku, :name, :price, :product_type)";
+        $sql .= ";\n";
+        $sql .= "SET @product_id = LAST_INSERT_ID();\n";
+        $sql .= "INSERT INTO $tableName (product_id, " . implode(', ', $columns) . ")
+                VALUES (@product_id, " . implode(', ', $columns) . ")";
+
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
+
+        $params = [
             ':sku' => $request['sku'],
             ':name' => $request['name'],
             ':price' => $request['price'],
             ':product_type' => $request['optionSelected'],
-        ]);
-
-        // Get the product ID of the newly inserted product
-        $product_id = $pdo->lastInsertId();
-
-        $sql = "INSERT INTO $tableName (product_id, " . implode(', ', $columns) . ")
-            VALUES (:product_id, " . implode(', ', array_map(function ($col) {
-            return ":$col";
-        }, $columns)) . ")";
-        $stmt = $pdo->prepare($sql);
-
-        $params = [':product_id' => $product_id];
+        ];
         foreach ($columns as $column) {
             $params[":$column"] = $request[$column];
         }
+
         $stmt->execute($params);
     }
 }

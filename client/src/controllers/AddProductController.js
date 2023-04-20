@@ -35,7 +35,7 @@ export const initialValues = {
 export function addProduct(values) {
   return axios
     .post(
-      "http://localhost:3000/asd/product/create",
+      "https://juniortaskapi.000webhostapp.com/create",
       {
         sku: values.sku,
         name: values.name,

@@ -13,16 +13,16 @@ import AddProduct from "scenes/add_product";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  
-const dispatch = useDispatch()
 
-useEffect(() => {
-  fetch("http://localhost:3000/asd/product/read")
-    .then((response) => response.json())
-    .then((data) => {
-      dispatch(setProductsData(data));
-    });
-}, [dispatch]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch("https://juniortaskapi.000webhostapp.com/read")
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setProductsData(data));
+      });
+  }, [dispatch]);
   return (
     <div className="app">
       <BrowserRouter>
@@ -30,9 +30,8 @@ useEffect(() => {
           <CssBaseline />
           <Routes>
             <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/addproduct" element={<AddProduct />} />
-
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/addproduct" element={<AddProduct />} />
             </Route>
           </Routes>
         </ThemeProvider>

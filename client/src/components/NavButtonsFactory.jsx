@@ -34,9 +34,15 @@ export const SaveButton = ({ formik }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const uniqueAttributeMap = {
-    book: formik.values.weight+'KG',
-    dvd: formik.values.size+' MB',
-    furniture: 'WxHxL: ' +formik.values.width + 'x' + formik.values.height + 'x' + formik.values.length,
+    book: formik.values.weight + "KG",
+    dvd: formik.values.size + " MB",
+    furniture:
+      "WxHxL: " +
+      formik.values.width +
+      "x" +
+      formik.values.height +
+      "x" +
+      formik.values.length,
   };
   const handleSaveClick = () => {
     try {
@@ -52,8 +58,9 @@ export const SaveButton = ({ formik }) => {
         const productData = {
           sku: formik.values.sku,
           name: formik.values.name,
-          price: formik.values.price.substr(1) + ' $',
-          unique_attribute: uniqueAttributeMap[formik.values.selectedOption.toLowerCase()],
+          price: formik.values.price.substr(1) + " $",
+          unique_attribute:
+            uniqueAttributeMap[formik.values.selectedOption.toLowerCase()],
         };
         dispatch(addProductReducer(productData));
         navigate("/");
@@ -71,13 +78,11 @@ export const MassDeleteButton = () => {
   const dispatch = useDispatch();
   const selectedIds = useSelector((s) => s.myFeature);
   const handleMassDeleteClick = () => {
- axios
+    axios
       .post(
-        "https://juniortaskapi.000webhostapp.com/delete",
+        "http://localhost:3000/asd/product/delete",
         {
-          ids: JSON.stringify(
-            selectedIds.map((product) => product.sku)
-          ),
+          ids: JSON.stringify(selectedIds.map((product) => product.sku)),
         },
         {
           headers: {
@@ -85,7 +90,8 @@ export const MassDeleteButton = () => {
           },
         }
       )
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         for (let i = 0; i < selectedIds.length; i++) {
           const sku = selectedIds[i].sku;
           dispatch(deleteProduct(sku));

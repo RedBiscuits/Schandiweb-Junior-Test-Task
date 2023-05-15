@@ -50,7 +50,7 @@ export function addProduct(values) {
       },
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
       }
     )

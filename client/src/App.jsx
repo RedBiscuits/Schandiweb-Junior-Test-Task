@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProductsData } from "controllers/ProductsReducer.mjs";
 import { useEffect } from "react";
 import AddProduct from "scenes/add_product";
-
+import axios from "axios";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -17,10 +17,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://juniortaskapi.000webhostapp.com/read")
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(setProductsData(data));
+    axios.get("http://localhost:3000/asd/product/read")
+      .then((res) => {
+        console.log(res)
+        dispatch(setProductsData(res.data));
       });
   }, [dispatch]);
   return (

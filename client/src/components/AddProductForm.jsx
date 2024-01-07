@@ -11,6 +11,7 @@ import {
   initialValues,
 } from "controllers/AddProductController";
 import { useTheme } from "@emotion/react";
+
 const AddProductForm = () => {
   useMediaQuery("(min-width: 600px)");
 
